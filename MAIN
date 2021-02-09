@@ -1,1 +1,23 @@
+import cv2
+print(cv2.__version__)
+import numpy as np
 
+ken = np.ones((5,5),np.uint8)
+
+cap=cv2.VideoCapture('resources/dog.mp4')
+while True:
+    success , img = cap.read()
+    Gus = cv2.GaussianBlur(img, (7, 7), 0)
+    Can = cv2.Canny(img,100,100)
+    Dil= cv2.dilate(Can,ken ,iterations=1)
+    imgGray =cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    cv2.imshow('Dog',img)
+    cv2.imshow('Dog gray', imgGray)
+    cv2.imshow('Dog blur', Gus)
+    cv2.imshow('Dog can', Can)
+    cv2.imshow('Dog dil', Dil)
+    if cv2.waitKey(20)& 0xff==ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
