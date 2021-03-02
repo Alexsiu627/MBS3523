@@ -21,3 +21,52 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
+////
+import cv2
+import numpy as np
+import face_recognition
+print(cv2.__version__)
+print(face_recognition.__version__)
+
+img=face_recognition.load_image_file('rs/Bill Gates.jpg')
+img=cv2.cvtColor(img,cv2.COLOR_RGB2BGR)
+gb=face_recognition.face_locations(img)[0]
+gba=face_recognition.face_encodings(img)[0]
+print(gb)
+
+cap=cv2.VideoCapture(1)
+cap.set(3,640)
+cap.set(4,480)
+while True:
+    success, imga = cap.read()
+    imgRGB = cv2.cvtColor(imga, cv2.COLOR_BGR2RGB)
+    imgRGB = cv2.cvtColor(imgRGB, cv2.COLOR_BGR2RGB)
+    faceLocCam = face_recognition.face_locations(imgRGB)[1]
+    encodeCam = face_recognition.face_encodings(imgRGB)[1]
+    cv2.rectangle(img, (faceLocCam[3], faceLocCam[0]), (faceLocCam[1], faceLocCam[2]), (0, 255, 0), 2)
+
+    results = face_recognition.compare_faces([gba], encodeCam,0.5)
+    print(results)
+    cv2.imshow('sdd', imgRGB)
+
+    if cv2.waitKey(1) == 27:
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
+# imk= face_recognition.load_image_file('rs/test_image_1.jpg')
+# imk=cv2.cvtColor(imk,cv2.COLOR_RGB2BGR)
+# gim=face_recognition.face_locations(imk)[1]
+# gima=face_recognition.face_encodings(imk)[1]
+
+# rd=face_recognition.compare_faces([gba],gima,0.5)
+# print(rd)
+# ds= face_recognition.face_distance([gba],gima)
+# print(ds)
+# cv2.rectangle(img,(gb[3],gb[0]),(gb[1],gb[2]),(0,255,0),2)
+# cv2.rectangle(imk,(gim[3],gim[0]),(gim[1],gim[2]),(0,255,0),2)
+
+# cv2.imshow('sd',img)
+# cv2.imshow('sda',imk)
+# cv2.waitKey(0)
